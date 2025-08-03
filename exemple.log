@@ -1,0 +1,26 @@
+Starting communication with battery...
+⚠️ If you receive NACK : ⚠️
+  - This code is specific to Mavic Air 1 + Arduino MEGA 2560, some parameters may change if you have another configuration
+  - Your battery is maybe not well connected to arduino
+      - Verify connexion, you can find screenshot of how to connect in github repo. https://github.com/gvnt/mavic-air-battery-helper
+  - Your battery is maybe completely discharge and cannot communicate, you need to open it and charge if a bit manually
+      - You can find screenshot of how to open and recharge manually in github repo. https://github.com/gvnt/mavic-air-battery-helper
+
+Testing to print FirmwareVersion (Should look like 0x02 0x00 0x43 0x07 0x01 0x01 0x00 0x27 0x00 0x03 0x85 0x02 0x00)
+Starting command FirmwareVersion : CMD=0x44, SUBCMD=0x0002
+Response length: 13 bytes
+Data (hex): 0x02 0x00 0x43 0x07 0x01 0x01 0x00 0x27 0x00 0x03 0x85 0x02 0x00 
+
+Printing battery state ...
+Starting command OperationStatus : CMD=0x44, SUBCMD=0x0054
+Response length: 6 bytes
+Data (hex): 0x54 0x00 0x00 0x63 0x00 0x00 
+Data (bin): 01010100 00000000 00000000 01100011 00000000 00000000 
+Bit 0 (PRES): 0 = Inactive - System Present (low)
+Bit 1 (DSG): 0 = Inactive - Discharge FET status
+Bit 2 (CHG): 0 = Inactive - Charge FET status
+Bit 3 (PCHG): 0 = Inactive - Precharge FET status
+Bit 4 (RSVD): 0 =  - Reserved
+Bit 5 (FUSE): 0 = Inactive - Fuse status
+Bit 6 (RSVD): 0 =  - Reserved
+Bit 7 (BTP_INT): 0 = Inactive - Battery Trip Point Interrupt
