@@ -23,7 +23,7 @@ void setup() {
   Serial.println(F("  - This code is specific to Mavic Air 1 + Arduino MEGA 2560, some parameters may change if you have another configuration"));
   Serial.println(F("  - Your battery is maybe not well connected to arduino"));
   Serial.println(F("      - Verify connexion, you can find screenshot of how to connect in github repo. https://github.com/gvnt/mavic-air-battery-helper"));
-  Serial.println(F("  - Your battery is maybe completely discharge and cannot communicate, you need to open it and charge if a bit manually"));
+  Serial.println(F("  - Your battery is maybe completely discharge and cannot communicate, you need to open it and charge it a bit manually"));
   Serial.println();
 
   Serial.println(F("Testing to print FirmwareVersion (Should look like 0x02 0x00 0x43 0x07 0x01 0x01 0x00 0x27 0x00 0x03 0x85 0x02 0x00)"));
