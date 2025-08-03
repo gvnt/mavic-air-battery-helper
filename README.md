@@ -14,13 +14,20 @@ Once certain thresholds are met, the battery enters a locked or sealed state, ma
 
 ---
 
-## ✅ Features
-* Automatically unseals the battery
-* Temporarily disables the Permanent Failure logic
-* Clears DJI-specific PF2 registers
-* Prints detailed battery state and status flags
-* Does not require commercial software or a CP2112 USB-to-I2C adapter
-* Free and open-source
+## ✅ Steps
+* Connect battery to arduino (some screens are availibale in the "screen" directiry if needed)
+* Connect arduino to PC with arduino
+* Upload code to arduino 
+* Open Serial Monitor
+* Check connexion
+* If you cannot connect, your battery is probably under voltage
+  * You need to open it and charge it a bit manualy there is many youtube video about this)
+* Control battery informations
+* Close Serial Monitor
+* Change UNLOCK_ACTIVETED to true and send code again
+* Open Serial Monitor
+* Control logs
+* Wait the message "You can disconnect and test your battery now."
 
 ---
 
@@ -77,6 +84,3 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ## 🧠 Acknowledgments
 
 This project was inspired by the DJI reverse-engineering and repair community. It aims to make battery servicing more accessible for users.
-
-
-Made with ❤️
