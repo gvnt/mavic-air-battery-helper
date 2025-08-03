@@ -51,9 +51,9 @@ Each command uses `Wire` (I2C) to send data, wait for a response, and parse it w
 ## 📌 Usage Notes
 
 * This tool was developed for the Arduino Mega 2560, but may work on other boards. You might need to:
-** Adjust I2C pins
-** Replace the `Wire` library with `SoftwareWire` if needed
-** Adapt the buffer size constraints
+  * Adjust I2C pins
+  * Replace the `Wire` library with `SoftwareWire` if needed
+  * Adapt the buffer size constraints
 * All output is sent to the Serial Monitor at 9600 baud.
 * Be patient: some commands (especially DeviceReset) require delays
 
@@ -77,5 +77,6 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ## 🧠 Acknowledgments
 
 This project was inspired by the DJI reverse-engineering and repair community. It aims to make battery servicing more accessible for users.
+
 
 Made with ❤️
