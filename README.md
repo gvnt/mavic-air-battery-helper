@@ -1,6 +1,8 @@
-# 🔋 DJI Mavic Air 1 Battery Unlocker (Arduino Mega 2560)
+# 🔋 DJI Mavic Air 1 Battery Unlocker (Arduino Mega 2560 / Uno R3)
 
-This project provides the full Arduino code to unlock (unseal) and clear the Permanent Failure (PF) flags from Mavic Air 1 smart batteries. It is designed to run on an Arduino Mega 2560, but it may also be portable to other Arduino-compatible boards with I2C capabilities.
+This project provides the full Arduino code to unlock (unseal) and clear the Permanent Failure (PF) flags from Mavic Air 1 smart batteries. It was originally designed to run on an Arduino Mega 2560, and now also officially supports the Arduino Uno R3 (and should be portable to other Arduino-compatible boards with I2C capabilities).
+
+All battery command/description tables are stored in flash memory (`PROGMEM`) instead of RAM, which is what makes the sketch fit comfortably within the Uno R3's 2KB of SRAM.
 
 ---
 
@@ -33,9 +35,11 @@ Once certain thresholds are met, the battery enters a locked or sealed state, ma
 
 ## 🛠️ Requirements
 
-* ✅ Arduino Mega 2560 (tested and recommended)
+* ✅ Arduino Mega 2560 or Arduino Uno R3 (both tested)
 * ✅ Battery from DJI Mavic Air 1
 * ✅ Connect battery’s SDA/SCL lines to Arduino (usually via JST or breakout connector)
+  * On Mega 2560: SDA = pin 20, SCL = pin 21
+  * On Uno R3: SDA = pin A4, SCL = pin A5
 * ✅ Basic knowledge of wiring and Arduino IDE
 
 ---
@@ -57,8 +61,8 @@ Each command uses `Wire` (I2C) to send data, wait for a response, and parse it w
 
 ## 📌 Usage Notes
 
-* This tool was developed for the Arduino Mega 2560, but may work on other boards. You might need to:
-  * Adjust I2C pins
+* This tool was developed for the Arduino Mega 2560 and has also been validated on the Arduino Uno R3. It may work on other boards too. You might need to:
+  * Adjust I2C pins (Wire.begin() uses the board's default I2C pins automatically)
   * Replace the `Wire` library with `SoftwareWire` if needed
   * Adapt the buffer size constraints
 * All output is sent to the Serial Monitor at 9600 baud.

@@ -20,7 +20,7 @@ void setup() {
 
   Serial.println(F("Starting communication with battery..."));
   Serial.println(F("⚠️ If you receive NACK : ⚠️"));
-  Serial.println(F("  - This code is specific to Mavic Air 1 + Arduino MEGA 2560, some parameters may change if you have another configuration"));
+  Serial.println(F("  - This code is specific to Mavic Air 1, tested on Arduino MEGA 2560 and Uno R3, some parameters may change if you have another configuration"));
   Serial.println(F("  - Your battery is maybe not well connected to arduino"));
   Serial.println(F("      - Verify connexion, you can find screenshot of how to connect in github repo. https://github.com/gvnt/mavic-air-battery-helper"));
   Serial.println(F("  - Your battery is maybe completely discharge and cannot communicate, you need to open it and charge it a bit manually"));

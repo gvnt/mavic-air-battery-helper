@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include "utility.h"
 #include <string.h>  // For strcmp
+#include <avr/pgmspace.h>  // For PROGMEM access (strcmp_P, memcpy_P)
 
 /**
  * @brief Retrieves a pointer to a ManufacturerBlockAccess command by its name.
@@ -17,18 +18,28 @@
  *         or NULL if no matching command is found or if `name` is NULL.
  *
  * @note The name comparison is case-sensitive.
+ *
+ * @note MBACommandsInfo lives in flash (PROGMEM) to save SRAM. The matching entry is copied
+ *       into a static RAM buffer so callers can keep using normal struct access (`->field`).
+ *       String fields inside the returned struct (name, access, description) still point into
+ *       flash and must be printed via `(const __FlashStringHelper*)` casts.
  */
 const MBACommandInfo* getMBACommandInfoByName(const char* name) {
     if (name == NULL) {
         return NULL;
     }
-    
+
+    static MBACommandInfo cmdInfoBuffer = {};
+
     // Number of commands in the array
     size_t count = sizeof(MBACommandsInfo) / sizeof(MBACommandsInfo[0]);
-    
+
     for (size_t i = 0; i < count; ++i) {
-        if (strcmp(MBACommandsInfo[i].name, name) == 0) {
-            return &MBACommandsInfo[i];
+        // Read the flash-resident name pointer before comparing, since MBACommandsInfo itself is in PROGMEM
+        const char* entryName = (const char*)pgm_read_ptr(&MBACommandsInfo[i].name);
+        if (strcmp_P(name, entryName) == 0) {
+            memcpy_P(&cmdInfoBuffer, &MBACommandsInfo[i], sizeof(MBACommandInfo));
+            return &cmdInfoBuffer;
         }
     }
     

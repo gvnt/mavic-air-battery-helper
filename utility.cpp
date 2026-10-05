@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "bqcmd.h"
+#include <avr/pgmspace.h>  // For PROGMEM access (memcpy_P)
 
 /**
  * @brief Reverses the byte order of a buffer (endianness).
@@ -108,13 +109,15 @@ void printBuffer(const uint8_t* buffer, size_t bufferSize, DisplayFormat display
  */
 void printBitFields(uint8_t* buffer, size_t bufferSize, const BitFieldInfo* bitfields, uint8_t bitfieldsCount) {
   for (uint8_t i = 0; i < bitfieldsCount; ++i) {
-    const BitFieldInfo* b = &bitfields[i];
+    // bitfields lives in flash (PROGMEM): copy the entry into RAM before reading its fields
+    BitFieldInfo b;
+    memcpy_P(&b, &bitfields[i], sizeof(BitFieldInfo));
 
     // Invert byte access (MSB byte first)
-    uint8_t byteIndex = (bitfieldsCount/8) - (b->bitIndex / 8) - 1;
+    uint8_t byteIndex = (bitfieldsCount/8) - (b.bitIndex / 8) - 1;
 
     // Invert bit access (MSB bit first)
-    uint8_t bitInByte = (b->bitIndex % 8);
+    uint8_t bitInByte = (b.bitIndex % 8);
 
     // Extract the target bit (safely check data size)
     bool bitSet = false;
@@ -125,28 +128,28 @@ void printBitFields(uint8_t* buffer, size_t bufferSize, const BitFieldInfo* bitf
 
     // Print bit index and label
     Serial.print(F("Bit "));
-    Serial.print(b->bitIndex);
+    Serial.print(b.bitIndex);
     Serial.print(F(" ("));
-    Serial.print(b->label);
+    Serial.print((const __FlashStringHelper*)b.label);
     Serial.print(F("): "));
 
     // Print meaning
     if (bitSet) {
       Serial.print(F("1 = "));
-      Serial.print(b->activeValue);
+      Serial.print((const __FlashStringHelper*)b.activeValue);
     } else {
       Serial.print(F("0 = "));
-      if (b->inactiveValue) {
-        Serial.print(b->inactiveValue);
+      if (b.inactiveValue) {
+        Serial.print((const __FlashStringHelper*)b.inactiveValue);
       } else {
         Serial.print(F("Inactive"));
       }
     }
 
     // Optional description
-    if (b->description) {
+    if (b.description) {
       Serial.print(F(" - "));
-      Serial.println(b->description);
+      Serial.println((const __FlashStringHelper*)b.description);
     }
   }
 }
@@ -208,7 +211,8 @@ void printMBACommandError(int result) {
  */
 
 void printMBACommandInfo(const MBACommandInfo* cmdInfo) {
-  Serial.print(cmdInfo->name);
+  // cmdInfo->name points into flash (PSTR), so it must be printed as a flash string
+  Serial.print((const __FlashStringHelper*)cmdInfo->name);
   Serial.print(F(" : CMD=0x"));
   if (MANUFACTURER_BLOCK_ACCESS_COMMAND < 0x10) Serial.print("0");
   Serial.print(MANUFACTURER_BLOCK_ACCESS_COMMAND, HEX);
